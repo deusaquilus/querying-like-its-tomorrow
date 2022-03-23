@@ -6,14 +6,10 @@ import javax.sql.DataSource
 import zio.Console.printLine
 import io.getquill._
 
-import QuillContext._
 import ServiceQueries._
 import io.getquill.context.ZioJdbc.DataSourceLayer
 import zio._
-
-object QuillContext extends PostgresZioJdbcContext(Literal):
-  val dataSourceLayer: ULayer[DataSource] =
-    DataSourceLayer.fromPrefix("database").orDie
+import QuillContext._
 
 trait DataService:
   def getCustomers: IO[SQLException, List[Record]]
@@ -37,12 +33,12 @@ object DataServiceAdvanced:
 
 final case class DataServiceLiveAdvanced(dataSource: DataSource) extends DataServiceAdvanced:
   def getCustomers(params: Map[String, String], columns: List[String]): IO[SQLException, List[Record]] =
-    if (columns.nonEmpty) //
+    if (columns.nonEmpty)
       run(customersWithFiltersAndColumns(params, columns)).provideService(dataSource)
     else
       run(customersWithFilters(params)).provideService(dataSource)
   def getCustomersPlan(params: Map[String, String], columns: List[String]): IO[SQLException, List[String]] =
-    if (columns.nonEmpty) //
+    if (columns.nonEmpty)
       run(customersPlan(customersWithFiltersAndColumns(params, columns)), OuterSelectWrap.Never).provideService(dataSource)
     else
       run(customersPlan(customersWithFilters(params)), OuterSelectWrap.Never).provideService(dataSource)
