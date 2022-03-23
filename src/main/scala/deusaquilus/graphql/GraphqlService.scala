@@ -12,7 +12,6 @@ import deusaquilus.DataServiceAdvanced
 import zio.ZIO
 import deusaquilus.QuillContext
 import deusaquilus.DataServiceLiveAdvanced
-import deusaquilus.DataService
 import zhttp.service.Server
 import zhttp.http.Http
 import zhttp.http.Request
