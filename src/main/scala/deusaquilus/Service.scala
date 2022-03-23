@@ -11,19 +11,6 @@ import io.getquill.context.ZioJdbc.DataSourceLayer
 import zio._
 import QuillContext._
 
-trait DataService:
-  def getCustomers: IO[SQLException, List[Record]]
-  def getCustomersPlan: IO[SQLException, List[String]]
-
-object DataService:
-  val live = (DataServiceLive.apply _).toLayer[DataService]
-
-final case class DataServiceLive(dataSource: DataSource) extends DataService:
-  def getCustomers: IO[SQLException, List[Record]] =
-    run(customers).provideService(dataSource)
-  def getCustomersPlan: IO[SQLException, List[String]] =
-    run(customersPlan(customers), OuterSelectWrap.Never).provideService(dataSource)
-
 trait DataServiceAdvanced:
   def getCustomers(params: Map[String, String], columns: List[String]): IO[SQLException, List[Record]]
   def getCustomersPlan(params: Map[String, String], columns: List[String]): IO[SQLException, List[String]]
