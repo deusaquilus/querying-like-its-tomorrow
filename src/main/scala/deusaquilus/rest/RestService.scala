@@ -6,8 +6,8 @@ import zio._
 import zio.json._
 import zio.Console.printLine
 import deusaquilus.Record
-import deusaquilus.DataServiceAdvanced
-import deusaquilus.DataServiceLiveAdvanced
+import deusaquilus.advanced.DataServiceAdvanced
+import deusaquilus.advanced.DataServiceLiveAdvanced
 import deusaquilus.QuillContext
 
 object RestService extends ZIOAppDefault:

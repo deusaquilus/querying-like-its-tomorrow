@@ -1,4 +1,4 @@
-package deusaquilus
+package deusaquilus.advanced
 
 import zio.IO
 import java.sql.SQLException
@@ -6,10 +6,11 @@ import javax.sql.DataSource
 import zio.Console.printLine
 import io.getquill._
 
-import ServiceQueries._
+import deusaquilus.ServiceQueries._
 import io.getquill.context.ZioJdbc.DataSourceLayer
 import zio._
-import QuillContext._
+import deusaquilus.QuillContext._
+import deusaquilus.Record
 
 trait DataServiceAdvanced:
   def getCustomers(params: Map[String, String], columns: List[String]): IO[SQLException, List[Record]]

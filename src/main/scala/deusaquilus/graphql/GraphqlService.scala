@@ -8,10 +8,10 @@ import zio.Task
 import deusaquilus.Record
 import caliban.GraphQL.graphQL
 import caliban.RootResolver
-import deusaquilus.DataServiceAdvanced
 import zio.ZIO
 import deusaquilus.QuillContext
-import deusaquilus.DataServiceLiveAdvanced
+import deusaquilus.advanced.DataServiceLiveAdvanced
+import deusaquilus.advanced.DataServiceAdvanced
 import zhttp.service.Server
 import zhttp.http.Http
 import zhttp.http.Request
