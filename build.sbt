@@ -5,7 +5,7 @@ ThisBuild / organizationName := "example"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "quill-2",
+    name := "querying-like-its-tomorrow",
     // Need this option for zio-http or else runMain in sbt, then ctrl+c will not actually stop the process
     // since it's running in the same JVM as SBT. (Also could be why certain combinations of settings weren't working)
     fork in run := true,
@@ -27,6 +27,6 @@ lazy val root = (project in file("."))
       "io.d11"                %% "zhttp"            % "2.0.0-RC4",
       "net.andreinc"           % "mockneat"         % "0.4.8"
     ),
-    scalacOptions ++= Seq("-Ymacro-annotations"),
+    scalacOptions ++= Seq(),
     testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
   )
