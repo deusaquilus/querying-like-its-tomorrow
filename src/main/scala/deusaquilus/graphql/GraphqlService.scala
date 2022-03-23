@@ -10,8 +10,8 @@ import caliban.GraphQL.graphQL
 import caliban.RootResolver
 import zio.ZIO
 import deusaquilus.QuillContext
-import deusaquilus.advanced.DataServiceLiveAdvanced
-import deusaquilus.advanced.DataServiceAdvanced
+import deusaquilus.advanced.DataServiceLive
+import deusaquilus.advanced.DataService
 import zhttp.service.Server
 import zhttp.http.Http
 import zhttp.http.Request
@@ -23,7 +23,7 @@ case class RecordPlanQuery(plan: String, records: List[Record])
 object GraphqlService extends ZIOAppDefault:
   case class Queries(customers: Field => (ProductArgs[Record] => Task[List[Record]]))
 
-  def graphqlService(dsa: DataServiceAdvanced) =
+  def graphqlService(dsa: DataService) =
     graphQL(
       RootResolver(
         Queries(customers =>
@@ -33,7 +33,7 @@ object GraphqlService extends ZIOAppDefault:
     ).interpreter
 
   val myApp = (for {
-    dsa         <- ZIO.environment[DataServiceAdvanced]
+    dsa         <- ZIO.environment[DataService]
     interpreter <- graphqlService(dsa.get)
     _ <- Server.start(
            port = 8088,
@@ -41,7 +41,7 @@ object GraphqlService extends ZIOAppDefault:
              ZHttpAdapter.makeHttpService(interpreter)
            }
          ).forever
-  } yield ()).provide(QuillContext.dataSourceLayer, DataServiceAdvanced.live)
+  } yield ()).provide(QuillContext.dataSourceLayer, DataService.live)
 
   def run = myApp.exitCode
 

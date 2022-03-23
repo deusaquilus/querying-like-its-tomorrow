@@ -7,6 +7,7 @@ import zio.Console.printLine
 import io.getquill._
 import io.getquill.context.ZioJdbc.DataSourceLayer
 
+/** Generate an aribtrarily large amount of mock-data  for database querying to examine scaling. */
 object RandomData:
   val hashBasis: Long = 99823981L
   val mock            = new MockNeat(RandomType.OLD, hashBasis)

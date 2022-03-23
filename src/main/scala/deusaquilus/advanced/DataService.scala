@@ -12,14 +12,14 @@ import zio._
 import deusaquilus.QuillContext._
 import deusaquilus.Record
 
-trait DataServiceAdvanced:
+trait DataService:
   def getCustomers(params: Map[String, String], columns: List[String]): IO[SQLException, List[Record]]
   def getCustomersPlan(params: Map[String, String], columns: List[String]): IO[SQLException, List[String]]
 
-object DataServiceAdvanced:
-  val live = (DataServiceLiveAdvanced.apply _).toLayer[DataServiceAdvanced]
+object DataService:
+  val live = (DataServiceLive.apply _).toLayer[DataService]
 
-final case class DataServiceLiveAdvanced(dataSource: DataSource) extends DataServiceAdvanced:
+final case class DataServiceLive(dataSource: DataSource) extends DataService:
   def getCustomers(params: Map[String, String], columns: List[String]): IO[SQLException, List[Record]] =
     if (columns.nonEmpty)
       run(customersWithFiltersAndColumns(params, columns)).provideService(dataSource)
