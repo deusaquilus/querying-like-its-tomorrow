@@ -1,5 +1,8 @@
 # Querying Like It's Tomorrow - ZIO World 2022
 
+Slides from my talk at ZIO World 2022. Note that clicking on `Querying_Like_Its_Tomorrow.pdf` above will make Github attempt to open this PDF. This will work but it takes some time and the links on the bottom-right do not work. To actually download the PDF, click the "Download" button or the following link:
+### [Querying_Like_Its_Tomorrow.pdf](https://github.com/deusaquilus/querying-like-its-tomorrow/raw/master/Querying_Like_Its_Tomorrow.pdf)
+
 ## Instructions
 1. Download and install docker.
 2. Clone this repo: `git clone 'https://github.com/deusaquilus/querying-like-its-tomorrow.git'`
