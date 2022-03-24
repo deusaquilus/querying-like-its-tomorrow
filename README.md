@@ -6,28 +6,27 @@
 3. Run the start script: `./start.sh` to start the postgres docker image.
 4. Compile and run the examples:
 5. `sbt 'runMain deusaquilus.simple.RestService'`
-  ### Other Main Functions for Rest/Graphql services:
-  - deusaquilus.simplefilter.RestService - Rest Http Server, filters by ID
-  - deusaquilus.intermediate.RestService - Rest Http Server, filters by arbitrary fields and includes/excludes arbitrary columns
-  - deusaquilus.rest.RestService - Rest Http Server, same as `intermediate.RestService` but also displays DB query plans in the console as queries are run
-  - deusaquilus.graphql.GraphqlService - Graphql Http Server
+   #### Other Main Functions for Rest/Graphql services:
+   - **deusaquilus.simplefilter.RestService** - Rest Http Server, filters by ID
+   - **deusaquilus.intermediate.RestService** - Rest Http Server, filters by arbitrary fields and includes/excludes arbitrary columns
+   - **deusaquilus.rest.RestService** - Rest Http Server, same as `intermediate.RestService` but also displays DB query plans in the console as queries are run
+   - **deusaquilus.graphql.GraphqlService** - Graphql Http Server
 
-
-  ### Code Samples from Talk
-  - deusaquilus.ExtensionsScala2Style
-  - deusaquilus.ExtensionScala3Style
-  - deusaquilus.ExtensionScala3_NoQuotes
-  - deusaquilus.ExtensionScala3_InlineMethod
-  - deusaquilus.ExtensionScala3_Typeclass
-  - deusaquilus.ExtensionScala3_InlineMatch
-  - deusaquilus.RobotCustomers
-  - deusaquilus.YettiCustomers
+   #### Code Samples from Talk
+   - deusaquilus.ExtensionsScala2Style
+   - deusaquilus.ExtensionScala3Style
+   - deusaquilus.ExtensionScala3_NoQuotes
+   - deusaquilus.ExtensionScala3_InlineMethod
+   - deusaquilus.ExtensionScala3_Typeclass
+   - deusaquilus.ExtensionScala3_InlineMatch
+   - deusaquilus.RobotCustomers
+   - deusaquilus.YettiCustomers
 
 4. Run the main class to start the http server:
   ```
-  > sbt 'runMain com.example.demoquill.Demoquill'
+  > sbt 'runMain deusaquilus.simple.RestService'
   [info] welcome to sbt 1.6.1 (AdoptOpenJDK Java 1.8.0_275)
-  [info] loading global plugins from /home/alexi/.sbt/1.0/plugins
+  [info] loading global plugins from /home/me/.sbt/1.0/plugins
   [info] Server started on port 8090
   ```
 5. Try the various APIs:
