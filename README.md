@@ -35,6 +35,10 @@
   [{"name":"Joe Smith","age":44,"membership":"k","id":1,"hid":1},{"name":"Joe Rolland","age":55,"membership":"k","id":2,"hid":2}]
   ```
 
+## Generating Lots of Data
+
+The data used in the included Postgres DB is written at the image startup but it is not very much content. Certainly not enough to get a good idea of what the DB query plans are supposed to look like.
+
 You can use the `RandomData` class to generate an arbitrary amount of data and writes it to the DB.
 This is useful if you'd like to to examine execution plans and test DB/App performance. `RandomData` uses the `mockneat` library to generate human-readable names and addresses.
 It can be run via `sbt 'runMain deusaquilus.RandomData'`
