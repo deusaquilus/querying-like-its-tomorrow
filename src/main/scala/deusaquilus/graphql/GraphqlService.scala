@@ -10,30 +10,38 @@ import caliban.GraphQL.graphQL
 import caliban.RootResolver
 import zio.ZIO
 import deusaquilus.QuillContext
-import deusaquilus.advanced.DataServiceLive
-import deusaquilus.advanced.DataService
 import zhttp.service.Server
 import zhttp.http.Http
 import zhttp.http.Request
 import caliban.ZHttpAdapter
 import zhttp.http._
 
-case class RecordPlanQuery(plan: String, records: List[Record])
-
 object GraphqlService extends ZIOAppDefault:
-  case class Queries(customers: Field => (ProductArgs[Record] => Task[List[Record]]))
+  case class Queries(
+    customers: Field => (ProductArgs[Record] => Task[List[Record]]),
+    customersPlan: Field => (ProductArgs[Record] => Task[RecordPlanQuery]),
+    superCustomers: Field => (ProductArgs[Record] => Task[List[Record]]),
+    superCustomersPlan: Field => (ProductArgs[Record] => Task[RecordPlanQuery])
+  )
 
-  def graphqlService(dsa: DataService) =
+  def graphqlService(dsa: AdvDataService) =
     graphQL(
       RootResolver(
-        Queries(customers =>
-          (productArgs => dsa.getCustomers(productArgs.keyValues, quillColumns(customers)))
+        Queries(
+          customers =>
+            (productArgs => dsa.getCustomers(productArgs.keyValues, quillColumns(customers))),
+          customersPlan =>
+            (productArgs => dsa.getCustomersWithPlan(productArgs.keyValues, quillColumns(customersPlan))),
+          superCustomers =>
+            (productArgs => dsa.getSuperCustomers(productArgs.keyValues, quillColumns(superCustomers))),
+          superCustomersPlan =>
+            (productArgs => dsa.getSuperCustomersWithPlan(productArgs.keyValues, quillColumns(superCustomersPlan))),
         )
       )
     ).interpreter
 
   val myApp = (for {
-    dsa         <- ZIO.environment[DataService]
+    dsa         <- ZIO.environment[AdvDataService]
     interpreter <- graphqlService(dsa.get)
     _ <- Server.start(
            port = 8088,
@@ -41,7 +49,7 @@ object GraphqlService extends ZIOAppDefault:
              ZHttpAdapter.makeHttpService(interpreter)
            }
          ).forever
-  } yield ()).provide(QuillContext.dataSourceLayer, DataService.live)
+  } yield ()).provide(QuillContext.dataSourceLayer, AdvDataService.live)
 
   def run = myApp.exitCode
 

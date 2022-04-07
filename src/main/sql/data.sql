@@ -25,6 +25,13 @@ CREATE TABLE Houses(
     hasChargingPort Boolean
 );
 
+CREATE TABLE SuperHouses(
+    id INT primary key,
+    owner INT UNIQUE,
+    origin VARCHAR(255),
+    hasChargingPort Boolean
+);
+
 CREATE TABLE PricingYears(
     startYear INT,
     endYear INT,
@@ -53,6 +60,9 @@ CREATE TABLE SuperHuman(
 
 INSERT INTO public.houses (id, owner, origin, haschargingport) VALUES (1, 1, 'US', true);
 INSERT INTO public.houses (id, owner, origin, haschargingport) VALUES (2, 2, 'UK', true);
+
+INSERT INTO public.superhouses (id, owner, origin, haschargingport) VALUES (1, 1, 'US', true);
+INSERT INTO public.superhouses (id, owner, origin, haschargingport) VALUES (2, 2, 'UK', true);
 
 INSERT INTO public.human (id, firstname, lastname, age, membership, segment) VALUES (1, 'Joe', 'Smith', 44, 'k', 'h');
 INSERT INTO public.human (id, firstname, lastname, age, membership, segment) VALUES (2, 'Joe', 'Rolland', 55, 'k', 'h');

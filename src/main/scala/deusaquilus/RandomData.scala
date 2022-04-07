@@ -33,10 +33,10 @@ object RandomData:
       )
     ).toList
 
-  def main(args: Array[String]): Unit =
+  def fillPeopleAndHouses(): Unit =
     import QuillContext._
-    val people  = mockPeople(100000)
-    val houses  = mockHouses(100000, 100000)
+    val people  = mockPeople(1000)
+    val houses  = mockHouses(1000, 1000)
     val runtime = zio.Runtime.unsafeFromLayer(dataSourceLayer ++ zio.Console.live)
     runtime.unsafeRun(for {
       _ <- printLine("========== Clearing Table ==========")
@@ -46,3 +46,42 @@ object RandomData:
       _ <- run(liftQuery(people).foreach(p => query[Human].insertValue(p)))
       _ <- run(liftQuery(houses).foreach(p => query[Houses].insertValue(p)))
     } yield ())
+
+  def mockSuperPeople(number: Int): List[SuperHuman] =
+    (1 to number).map(id =>
+      SuperHuman(
+        id,
+        mock.names.first.get,
+        mock.ints.range(22, 300).get,
+        mock.chars.from(Array('g', 'b')).get.toString
+      )
+    ).toList
+
+  // House object for SuperHouses table have unique owner constraints so just use the id
+  // for that field which will ensure every id-index is an owner
+  def mockSuperHouses(number: Int, numPeople: Int): List[Houses] =
+    (1 to number).map(id =>
+      Houses(
+        id,
+        id,
+        mock.countries.iso2.get,
+        mock.bools.probability(0.33).get
+      )
+    ).toList
+
+  def fillSuperPeopleAndHouses(): Unit =
+    import QuillContext._
+    val people  = mockSuperPeople(1000)
+    val houses  = mockSuperHouses(1000, 1000)
+    val runtime = zio.Runtime.unsafeFromLayer(dataSourceLayer ++ zio.Console.live)
+    runtime.unsafeRun(for {
+      _ <- printLine("========== Clearing Table ==========")
+      _ <- run(query[SuperHuman].delete)
+      _ <- run(querySchema[Houses]("SuperHouses").delete)
+      _ <- printLine("========== Inserting Values ==========")
+      _ <- run(liftQuery(people).foreach(p => query[SuperHuman].insertValue(p)))
+      _ <- run(liftQuery(houses).foreach(p => querySchema[Houses]("SuperHouses").insertValue(p)))
+    } yield ())
+
+  def main(args: Array[String]): Unit =
+    fillSuperPeopleAndHouses()
